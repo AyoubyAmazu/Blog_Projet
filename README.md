@@ -2,5 +2,9 @@
 
 mkdir -p packageName/{Controllers,Models,Database,Routes,App/{Providers,Exports,Imports,Policies,Requests},Database/{migrations,factories,seeders},Resources/{css,js,views},Services}
 
+# change provider
+
+
 # run 
 composer dump-autoload
+
