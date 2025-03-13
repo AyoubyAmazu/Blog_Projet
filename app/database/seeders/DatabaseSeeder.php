@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Modules\Blog\Database\Seeders\BlogDatabaseSeeder;
+
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,10 +31,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // Call other seeders
         $this->call([
-            CategorySeeder::class,  // Add CategorySeeder
-            TagSeeder::class,       // Add TagSeeder
-            ArticleSeeder::class,   // Add ArticleSeeder
-            ArticleTagSeeder::class,// Add ArticleTagSeeder
+            BlogDatabaseSeeder::class,
             RolePermissionSeeder::class,// Add Role & permission
         ]);
         $user->assignRole('admin');

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Blog\Models;
 
+
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
