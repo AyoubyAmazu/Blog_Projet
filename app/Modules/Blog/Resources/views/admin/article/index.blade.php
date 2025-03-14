@@ -56,9 +56,9 @@
                                         <td>{{ $article->user->name }}</td>
                                         <td>{{ $article->created_at->format('Y-m-d') }}</td>
                                         <td>
-                                            <a href="{{Route('article.show',$article)}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="{{Route('article.edit',$article)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> </a>
-                                            <form action="{{ route('article.destroy', $article) }}" method="POST" style="display:inline;">
+                                            <a href="{{Route('article.show',$article->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{Route('article.edit',$article->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> </a>
+                                            <form action="{{ route('article.destroy', $article->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>

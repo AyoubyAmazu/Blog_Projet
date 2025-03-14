@@ -4,9 +4,9 @@ namespace Modules\Blog\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\Blog\Models\Article ;
 use Modules\Blog\Models\Category;
 use Modules\Blog\Models\Tag;
+use Modules\Blog\services\ArticleService;
 use Modules\core\controllers\Controller ;
 
 class ArticleController extends Controller
@@ -14,9 +14,16 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected  $articleService;
+
+        public function __construct(ArticleService $articleService)
+        {
+            $this->articleService = $articleService;
+        }
+    
     public function index()
     {
-        $articles = Article::paginate(4);
+        $articles = $this->articleService->paginate(5);
         return view('Blog::admin.article.index', compact('articles'));
     }
 
@@ -42,33 +49,29 @@ class ArticleController extends Controller
             'tags'=>'array',
             'tags.*' => 'exists:tags,id'
         ]);
-
-        $article = Article::create([
-            'title'=> $valideted['title'],
-            'content'=> $valideted['content'],
-            'user_id'=>Auth::user()->id,
-            'category_id'=> $valideted['category'],
-        ]);
+        $valideted["user_id"]=Auth::user()->id;
+        $valideted["category_id"] = $valideted['category'];
+        $article = $this->articleService->create($valideted);
         $article->tags()->attach($request->tags);
 
-
-
-        return redirect()->route('Blog::article.index')->with('success', 'Article créé avec succès.');
+        return redirect()->route('article.index')->with('success', 'Article créé avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Article $article)
+    public function show($id)
     {
+        $article = $this->articleService->find($id);
         return view('Blog::admin.article.show',compact('article'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
+        $article = $this->articleService->find($id);
         $categories = Category::all();
         $tags = Tag::all();
         return view('Blog::admin.article.edit',compact('article','categories','tags'));
@@ -77,7 +80,7 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request,$id)
     {
         $valideted = $request->validate([
             'title'=> 'required',
@@ -87,24 +90,22 @@ class ArticleController extends Controller
             'tags.*' => 'exists:tags,id'
         ]);
 
-        $article->update([
-            'title'=> $valideted['title'],
-            'content'=> $valideted['content'],
-            'category_id'=> $valideted['category'],
-        ]);
+
+        $valideted['category_id'] = $valideted['category'];
+        $article = $this->articleService->update($id,$valideted);
         $article->tags()->sync($request->tags);
 
-        return redirect()->route('Blog::article.index')->with('success', 'Article créé avec succès.');
+        return redirect()->route('article.index')->with('success', 'Article créé avec succès.');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( Article $article)
+    public function destroy($id)
     {
-        // $article = Article::find($id);
-        $article->delete();
-        return redirect()->route('Blog::article.index')->with('success', 'Article supprimé avec succès.');
+        
+        $this->articleService->delete($id);
+        return redirect()->route('article.index')->with('success', 'Article supprimé avec succès.');
     }
 }

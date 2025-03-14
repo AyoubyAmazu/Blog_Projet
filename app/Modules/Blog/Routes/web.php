@@ -11,7 +11,7 @@ use Modules\Blog\Controllers\HomeController;
 use Modules\Blog\Controllers\TagController;
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('Blog::auth.login');
 })->middleware('guest');
 
 

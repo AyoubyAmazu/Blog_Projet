@@ -6,7 +6,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('article.update',$article)}}" method="POST">
+            <form action="{{route('article.update',$article->id)}}" method="POST">
                 @csrf <!-- Pour la sécurité CSRF -->
                 @method('put')
                 <div class="card-body">
