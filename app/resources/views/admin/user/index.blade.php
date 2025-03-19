@@ -35,6 +35,20 @@
                         <h3 class="card-title">Table des user</h3>
                     </div>
                     <!-- /.card-header -->
+
+                    <!-- Import Users Form -->
+                    <div class="card-body">
+                        <form action="{{ route('import.users') }}" method="POST" enctype="multipart/form-data" class="mb-3">
+                            @csrf
+                            <div class="form-group">
+                                <label for="file">Importer un fichier :</label>
+                                <input type="file" name="file" id="file" class="form-control-file" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Importer les utilisateurs</button>
+                        </form>
+                    </div>
+                    <!-- End Import Users Form -->
+
                     @if($users->isEmpty())
                         <p class="p-5 text-center">aucun article trouvé.</p>
                     @else

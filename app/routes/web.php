@@ -8,6 +8,12 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\UsersExport;
+use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\ImportController;
+
+
 
 
 
@@ -30,6 +36,12 @@ use Illuminate\Support\Facades\Auth;
 // Route::resource('/dashboard/tag',TagController::class);
 
 Auth::routes();
+Route::get('/export-users', function () {
+    return Excel::download(new UsersExport, 'users.xlsx');
+});
+
+Route::post('/import-users', [ImportController::class, 'import'])->name('import.users');
+
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
